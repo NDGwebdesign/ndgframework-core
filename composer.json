@@ -1,0 +1,21 @@
+{
+  "name": "ndgwebdesign/ndgframework-core",
+  "description": "Core package for NDG Framework",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "classmap": [
+      "./"
+    ],
+    "files": [
+      "helpers.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {}
+  }
+}
