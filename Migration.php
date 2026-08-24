@@ -2,10 +2,7 @@
 
 class Migration
 {
-    protected static function migrationsDir(): string
-    {
-        return rtrim(framework_project_root(), '/') . '/migrations/';
-    }
+    protected static $migrationsDir = __DIR__ . '/../migrations/';
 
     public static function make($name)
     {
@@ -15,11 +12,10 @@ class Migration
         }
 
         $timestamp = date('Y_m_d_His');
-        $migrationsDir = self::migrationsDir();
-        $fileName = $migrationsDir . "{$timestamp}_{$name}.php";
+        $fileName = self::$migrationsDir . "{$timestamp}_{$name}.php";
 
-        if (!is_dir($migrationsDir)) {
-            mkdir($migrationsDir, 0777, true);
+        if (!is_dir(self::$migrationsDir)) {
+            mkdir(self::$migrationsDir, 0777, true);
         }
 
         $className = str_replace(' ', '', ucwords(str_replace('_', ' ', $name)));
@@ -60,7 +56,7 @@ PHP;
 
         $applied = $pdo->query("SELECT migration FROM migrations")->fetchAll(PDO::FETCH_COLUMN);
 
-        foreach (glob(self::migrationsDir() . '*.php') as $file) {
+        foreach (glob(self::$migrationsDir . '*.php') as $file) {
             $migrationName = basename($file);
 
             if (in_array($migrationName, $applied)) continue;
@@ -87,7 +83,7 @@ PHP;
             return;
         }
 
-        $migration = include self::migrationsDir() . $lastMigration;
+        $migration = include self::$migrationsDir . $lastMigration;
         $migration->down();
 
         $stmt = $pdo->prepare("DELETE FROM migrations WHERE migration = ?");

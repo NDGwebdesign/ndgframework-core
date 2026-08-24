@@ -20,12 +20,11 @@ class View
     public function render()
     {
         $view = str_replace('.', '/', $this->view);
-        $root = framework_project_root();
 
         extract($this->data);
 
         ob_start();
-        require $root . "/resources/view/$view.php";
+        require __DIR__."/../resources/view/$view.php";
         $html = ob_get_clean();
 
         return parseComponents($html);
@@ -42,15 +41,13 @@ class View
             return;
         }
 
-        $root = framework_project_root();
-
-        $fileName = $root . "/resources/view/{$name}.php";
+        $fileName = __DIR__ . "/../resources/view/{$name}.php";
 
         if (!is_dir(dirname($fileName))) {
             mkdir(dirname($fileName), 0777, true);
         }
         //make route in web.php
-        $webFile = $root . "/routes/web.php";
+        $webFile = __DIR__ . "/../routes/web.php";
         $route = "\$router->get('/{$name}', function () {
     return view('{$name}');
 });\n";

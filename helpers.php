@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__.'/Table.php';
+require_once __DIR__.'/TableAction.php';
+
 function view($view, $data = [])
 {
     return new View($view, $data);
@@ -44,27 +47,11 @@ function auth_check()
     return Auth::check();
 }
 
-function framework_project_root()
-{
-    $localRoot = dirname(__DIR__);
-    if (is_dir($localRoot . '/resources') && is_dir($localRoot . '/routes')) {
-        return $localRoot;
-    }
-
-    $vendorRoot = dirname(__DIR__, 3);
-    if (is_dir($vendorRoot . '/resources') && is_dir($vendorRoot . '/routes')) {
-        return $vendorRoot;
-    }
-
-    return getcwd();
-}
-
 function parseComponents($html)
 {
     $resolveComponent = function ($component, $slot = '') {
-        $root = framework_project_root();
-        $layout = $root . "/resources/layouts/$component.php";
-        $componentFile = $root . "/resources/components/$component.php";
+        $layout = __DIR__."/../resources/layouts/$component.php";
+        $componentFile = __DIR__."/../resources/components/$component.php";
 
         $file = file_exists($layout) ? $layout : $componentFile;
 
@@ -107,8 +94,7 @@ function parseComponents($html)
 function vite($file)
 {
     $isLocal = Env::get('APP_ENV', 'local') === 'local';
-    $root = framework_project_root();
-    $hotFile = $root . '/public/hot';
+    $hotFile = __DIR__ . '/../public/hot';
 
     if ($isLocal && file_exists($hotFile)) {
         $devBase = trim((string) file_get_contents($hotFile));
@@ -122,7 +108,7 @@ function vite($file)
         return "<link rel='stylesheet' href='{$devBase}/{$file}'>";
     }
 
-    $manifestPath = $root . '/public/build/.vite/manifest.json';
+    $manifestPath = __DIR__ . '/../public/build/.vite/manifest.json';
 
     if (!file_exists($manifestPath)) {
         return "<!-- vite manifest not found, run npm run build -->";

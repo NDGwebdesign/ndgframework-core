@@ -9,6 +9,7 @@ class Autoloader
             $folders = [
                 __DIR__.'/../app/Controllers/',
                 __DIR__.'/../app/Models/',
+                __DIR__.'/../core/',
                 __DIR__.'/'
             ];
 
