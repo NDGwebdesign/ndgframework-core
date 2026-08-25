@@ -24,7 +24,7 @@ class View
         extract($this->data);
 
         ob_start();
-        require __DIR__."/../resources/view/$view.php";
+        require base_path("resources/view/$view.php");
         $html = ob_get_clean();
 
         return parseComponents($html);
@@ -41,7 +41,7 @@ class View
             return;
         }
 
-        $fileName = __DIR__ . "/../resources/view/{$name}.php";
+        $fileName = base_path("resources/view/{$name}.php");
 
         if (!is_dir(dirname($fileName))) {
             mkdir(dirname($fileName), 0777, true);

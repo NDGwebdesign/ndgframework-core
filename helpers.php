@@ -3,6 +3,13 @@
 require_once __DIR__.'/Table.php';
 require_once __DIR__.'/TableAction.php';
 
+function base_path($path = '')
+{
+    $base = defined('BASE_PATH') ? BASE_PATH : dirname(__DIR__);
+
+    return $path === '' ? $base : $base . DIRECTORY_SEPARATOR . ltrim($path, '/\\');
+}
+
 function view($view, $data = [])
 {
     return new View($view, $data);
@@ -50,8 +57,8 @@ function auth_check()
 function parseComponents($html)
 {
     $resolveComponent = function ($component, $slot = '') {
-        $layout = __DIR__."/../resources/layouts/$component.php";
-        $componentFile = __DIR__."/../resources/components/$component.php";
+        $layout = base_path("resources/layouts/$component.php");
+        $componentFile = base_path("resources/components/$component.php");
 
         $file = file_exists($layout) ? $layout : $componentFile;
 

@@ -20,7 +20,7 @@ class Router
 
         if (!$action) {
             http_response_code(404);
-            include __DIR__ . '/../resources/error/404.php';
+            include base_path('resources/error/404.php');
             return;
         }
 
