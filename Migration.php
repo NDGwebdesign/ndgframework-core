@@ -2,7 +2,7 @@
 
 class Migration
 {
-    protected static $migrationsDir = __DIR__ . '/../migrations/';
+    protected static $migrationsDir = BASE_PATH . '/migrations/';
 
     public static function make($name)
     {

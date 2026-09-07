@@ -6,10 +6,14 @@ class Autoloader
     {
         spl_autoload_register(function ($class) {
 
+            $basePath = defined('BASE_PATH') ? BASE_PATH : dirname(__DIR__, 2);
+
             $folders = [
-                __DIR__.'/../app/Controllers/',
-                __DIR__.'/../app/Models/',
-                __DIR__.'/../core/',
+                $basePath.'/app/Controllers/',
+                $basePath.'/app/Models/',
+                $basePath.'/app/Services/',
+                $basePath.'/app/Support/',
+                $basePath.'/core/',
                 __DIR__.'/'
             ];
 

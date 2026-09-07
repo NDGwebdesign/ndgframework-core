@@ -101,7 +101,8 @@ function parseComponents($html)
 function vite($file)
 {
     $isLocal = Env::get('APP_ENV', 'local') === 'local';
-    $hotFile = __DIR__ . '/../public/hot';
+    $projectRoot = defined('BASE_PATH') ? BASE_PATH : dirname(__DIR__, 4);
+    $hotFile = $projectRoot . '/public/hot';
 
     if ($isLocal && file_exists($hotFile)) {
         $devBase = trim((string) file_get_contents($hotFile));
@@ -115,7 +116,7 @@ function vite($file)
         return "<link rel='stylesheet' href='{$devBase}/{$file}'>";
     }
 
-    $manifestPath = __DIR__ . '/../public/build/.vite/manifest.json';
+    $manifestPath = $projectRoot . '/public/build/.vite/manifest.json';
 
     if (!file_exists($manifestPath)) {
         return "<!-- vite manifest not found, run npm run build -->";

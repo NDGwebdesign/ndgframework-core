@@ -20,11 +20,16 @@ class View
     public function render()
     {
         $view = str_replace('.', '/', $this->view);
+        $fileName = base_path("resources/view/$view.php");
+
+        if (!is_file($fileName)) {
+            throw new RuntimeException("View [{$this->view}] not found. Expected file: {$fileName}");
+        }
 
         extract($this->data);
 
         ob_start();
-        require base_path("resources/view/$view.php");
+        require $fileName;
         $html = ob_get_clean();
 
         return parseComponents($html);
