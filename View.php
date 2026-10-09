@@ -52,7 +52,7 @@ class View
             mkdir(dirname($fileName), 0777, true);
         }
         //make route in web.php
-        $webFile = __DIR__ . "/../routes/web.php";
+        $webFile = base_path('routes/web.php');
         $route = "\$router->get('/{$name}', function () {
     return view('{$name}');
 });\n";
